@@ -117,7 +117,8 @@
             09:00-12:30
           </TableHead>
           <TableData>
-            Innovation Day Part I at the Conference Room at the Andaz hotel Keynote ‘When the wind of change blows, true innovators build windmills instead of walls’
+            Innovation Day Part I at the Conference Room at the Andaz hotel<br />
+            Keynote ‘When the wind of change blows, true innovators build windmills instead of walls’
           </TableData>
         </TableRow>
         <TableRow>
@@ -232,20 +233,17 @@
       </p>
       Package deal includes (p.p):
       <ul class="pl-4">
-        <li>&check;	Accomodation: single room** for 2 nights at hotel Andaz Vienna Am Belvedere (May 22nd + May 23rd)</li>
-        <li>&check; 3 Lunches</li>
-        <li>&check; 2 Dinners</li>
+        <li>&check;	Accomodation: single room for 2 nights at hotel Andaz Vienna Am Belvedere (May 22nd + May 23rd)</li>
+        <li>&check; 3 Lunches (May 22<sup>nd</sup>, 23<sup>rd</sup> & 24<sup>th</sup>)</li>
+        <li>&check; 2 Dinners (May 22<sup>nd</sup>, 23<sup>rd</sup>)</li>
         <li>&check; Visit Wienerberger (for Euro-Mat shareholders only)</li>
         <li>&check; Conference Costs Innovation Day</li>
         <li>&check; 3 Sessions TU Vienna to introduce the Master Class ‘The Future of Building’.</li>
         <li>&check; Keynote ‘When the wind of change blows, true innovators build windmills instead of walls’.</li>
         <li>&check; Guided tour of Vienna per bus</li>
-        <li>&check; Transfers </li>
+        <li>&check; Transfers (to Wienerberger, restaurant and TU Vienna and back to the hotel</li>
         <li>&check; Other conference costs</li>
       </ul>
-      <i>
-        ** double room available only on request and at extra costs
-      </i>
     </BaseSection>
     <BaseSection title="Registration Form">
       <TimeLine :pos="timeLinePos" :steps="timeLineSteps" />
