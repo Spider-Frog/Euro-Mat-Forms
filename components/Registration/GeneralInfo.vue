@@ -21,19 +21,20 @@
       <FormKit
           v-model="form.email"
           type="email"
-          label="E-mail"
+          label="E-mail (will be used for invoicing)"
           validation="required|email"
       />
       <FormKit
           v-model="form.companyName"
           type="text"
-          label="Company Name"
+          label="Company name"
           validation="required"
       />
       <FormKit
-          v-model="form.note"
-          type="textarea"
-          label="Note"
+          v-model="form.companyAddress"
+          type="text"
+          label="Company address (will be used on the invoice)"
+          validation="required"
       />
     </FormKit>
   </form>
@@ -49,8 +50,8 @@ const form = useState('generalInfoForm', () => {
   return {
     participate: "1",
     companyName: "",
-    email: "",
-    note: ""
+    companyAddress: "",
+    email: ""
   }
 })
 
@@ -58,8 +59,7 @@ function submit() {
   emit('update:modelValue', {
     participate: form.value.participate === "1",
     companyName: form.value.companyName,
-    email: form.value.email,
-    note: form.value.note
+    email: form.value.email
   } as GeneralInfo);
   emit('submit');
 }

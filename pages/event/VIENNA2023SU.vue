@@ -27,7 +27,7 @@
         innovation...So be creative, your stand is waiting for you...and so are we!
       </p>
       <p>
-        More information about the Forum Innovation Day will follow in an online session planned on March, 14th from
+        More information about the Forum Innovation Day will follow in an online session planned on March, 21st from
         10:30 till 11:00 AM (CET). An invitation will be sent shortly to you for this online session.
       </p>
       <p>
@@ -42,7 +42,7 @@
           </TableHead>
         </TableRow>
         <TableRow>
-          <TableHead>
+          <TableHead class="w-1/4">
             13:00-18:00
           </TableHead>
           <TableData>
@@ -73,7 +73,7 @@
           </TableHead>
         </TableRow>
         <TableRow>
-          <TableHead>
+          <TableHead class="w-1/4">
             09:00-12:30
           </TableHead>
           <TableData>
@@ -137,7 +137,7 @@
           </TableHead>
         </TableRow>
         <TableRow>
-          <TableHead>
+          <TableHead class="w-1/4">
             08:30
           </TableHead>
           <TableData>
@@ -193,7 +193,7 @@
       </p>
       Package deal includes (p.p):
       <ul class="pl-4">
-        <li>&check;	Accomodation: single room for 2 nights at hotel Andaz Vienna Am Belvedere (May 22nd + May 23rd)</li>
+        <li>&check;	Accomodation: single room for 2 nights at hotel Andaz Vienna Am Belvedere (May 22<sup>nd</sup> + May 23<sup>rd</sup>)</li>
         <li>&check; 2 Lunches (May 23<sup>rd</sup> & 24<sup>th</sup>)</li>
         <li>&check; 2 Dinners (May 22<sup>nd</sup> & 23<sup>rd</sup>)</li>
         <li>&check; Exhibition stand during the Innovation Day (for Euro-Mat suppliers only)</li>
@@ -210,36 +210,53 @@
       <RegistrationGeneralInfo v-model="generalInfo" v-show="timeLinePos === 1" @submit="timeLinePos += 1" />
       <RegistrationParticipantsInfo v-model="participantsInfo" v-show="timeLinePos === 2" @submit="timeLinePos += 1" />
       <div v-if="timeLinePos === 3">
-        <BaseTitle size="2">Confirm Form info</BaseTitle>
+        <BaseTitle v-if="generalInfo.participate" size="2">Confirm Form info</BaseTitle>
+        <BaseTitle v-else size="2">Declination info</BaseTitle>
         <hr />
         <BaseTitle size="3">General Info</BaseTitle>
         <p>
           Participation: {{ generalInfo.participate ? 'Yes' : 'No' }}<br />
           E-mail address: {{ generalInfo.email }}<br />
           Company name: {{ generalInfo.companyName }}<br />
-          Note: {{ generalInfo.note }}
+          Note: {{ participantsInfo.note }}
         </p>
         <hr />
         <BaseTitle size="3">Participants Info</BaseTitle>
-        <p v-for="(participant, index) in participantsInfo" :key="index">
+        <p v-for="(participant, index) in participantsInfo.participants" :key="index">
           <BaseTitle size="4">Participant {{ index + 1 }}</BaseTitle>
           E-mail: {{ participant.email }}<br />
           Name: {{ participant.firstName }} {{ participant.lastName }}<br />
           Phone number: {{ participant.phoneNumber }}
         </p>
-        <br />
-        <p class="my-2">
-          Euro-Mat works with a new partner named X-perience regarding the organisation of events.
-        </p>
-        <p class="my-2">
-          Please note that you will receive an invoice after your registration from our partner X-perience.
-        </p>
-        <p class="my-2">
-          Your registration will be definitive after payment. No refund will be made for non-attendance.
-        </p>
-        <p class="text-center my-6">
-          We look forward to welcoming you at the Forum 2023 in Vienna!
-        </p>
+        <template v-if="generalInfo.participate">
+          <p class="my-2">
+            Euro-Mat works with a new partner named X-perience regarding the organisation of events.
+          </p>
+          <p class="my-2">
+            Please note that you will receive an invoice after your registration from our partner X-perience.
+          </p>
+          <p class="my-2">
+            Your registration will be definitive after payment. No refund will be made for non-attendance.
+          </p>
+          <p>
+            X-perience<br />
+            Latemstraat 16<br />
+            9830 Sint-Martens-Latem<br />
+            <br />
+            <LinkNormal href="https://www.travel-lounge.be/">www.travel-lounge.be</LinkNormal>
+          </p>
+          <p class="text-center my-6">
+            We look forward to welcoming you at the Forum 2023 in Vienna!
+          </p>
+        </template>
+        <template v-else>
+          <p class="my-2">
+            Your declination for the Euro-Mat Forum 2023 in Vienna has been well noted.
+          </p>
+          <p class="text-center my-6">
+            We hope to see you soon at a next event.
+          </p>
+        </template>
         <FormSubmitButton @click="submit">Submit</FormSubmitButton>
         <p class="my-4 p-4 border-2 border-red-600 bg-red-400 text-white text-lg" v-show="error">
           {{ error }}
@@ -263,7 +280,7 @@ const timeLinePos = useState('timeLinePos', () => 1);
 const timeLineSteps = useState('timeLineMax', () => ['General info', 'Participants info', 'Confirmation']);
 
 const generalInfo = useState('generalInfo', () => {return {} as GeneralInfo});
-const participantsInfo = useState('participantsInfo', () => {return [] as ParticipantsInfo});
+const participantsInfo = useState('participantsInfo', () => {return {participants: [], note: ""} as ParticipantsInfo});
 
 const router = useRouter()
 const route = useRoute()
@@ -271,15 +288,14 @@ const runtimeConfig = useRuntimeConfig()
 const error = useState('error', () => "")
 
 async function submit() {
-  console.log(route.query)
-  if (route.query['invitation_code']?.length !== 16) {
-    error.value = "Invitation code is not valid."
-    return;
-  }
+  // if (route.query['invitation_code']?.length !== 16) {
+  //   error.value = "Invitation code is not valid."
+  //   return;
+  // }
 
   const persons = [] as object[];
 
-  participantsInfo.value.forEach(participant => {
+  participantsInfo.value.participants.forEach(participant => {
     persons.push({
       email: participant.email,
       first_name: participant.firstName,
@@ -296,11 +312,11 @@ async function submit() {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        invitation_code: route.query['invitation_code'],
+        //invitation_code: route.query['invitation_code'],
         participate: generalInfo.value.participate,
         company_name: generalInfo.value.companyName,
         email: generalInfo.value.email,
-        note: generalInfo.value.note,
+        note: participantsInfo.value.note,
         persons: persons
       })
     });
@@ -309,7 +325,7 @@ async function submit() {
     if (result.ok) {
       router.push({name: 'success'})
     } else {
-      console.error(result.text())
+      console.error(await result.text())
       switch(result.status) {
         case 400:
           error.value = "Some values have not been correctly filled in."
