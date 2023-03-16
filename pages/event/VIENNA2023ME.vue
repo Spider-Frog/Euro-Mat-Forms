@@ -259,6 +259,7 @@
           Participation: {{ generalInfo.participate ? 'Yes' : 'No' }}<br />
           E-mail address: {{ generalInfo.email }}<br />
           Company name: {{ generalInfo.companyName }}<br />
+          Company address: {{ generalInfo.companyAddress }}<br />
           Note: {{ participantsInfo.note }}
         </p>
         <hr />
@@ -356,6 +357,7 @@ async function submit() {
         //invitation_code: route.query['invitation_code'],
         participate: generalInfo.value.participate,
         company_name: generalInfo.value.companyName,
+        company_address: generalInfo.value.companyAddress,
         email: generalInfo.value.email,
         note: participantsInfo.value.note,
         persons: persons

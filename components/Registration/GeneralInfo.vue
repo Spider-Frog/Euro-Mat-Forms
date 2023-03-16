@@ -59,6 +59,7 @@ function submit() {
   emit('update:modelValue', {
     participate: form.value.participate === "1",
     companyName: form.value.companyName,
+    companyAddress: form.value.companyAddress,
     email: form.value.email
   } as GeneralInfo);
   emit('submit');
