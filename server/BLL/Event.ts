@@ -28,11 +28,32 @@ export default class Event {
   }
   created_at: Date;
   last_modified: Date;
-  private DAL: IEventDAL;
-  private RegistrationDAL: IRegistrationCollectionDAL
-  private RegistrationChildDAL: IRegistrationDAL
 
-  constructor(dal: IEventDAL, registrationDAL: IRegistrationCollectionDAL, registrationChildDAL: IRegistrationDAL) {
+  constructor(
+    public id: string,
+    public code: string,
+    public name: string,
+    public description: string | undefined,
+    public startDate: Date | undefined,
+    public endDate: Date | undefined,
+    public status: 'open' | 'closed' | 'archived' | null,
+    public invitationRequired: boolean,
+    public invitationMail: string | undefined,
+    public content: string | undefined,
+    public meta: {
+      [key: string]: {
+        name: string,
+        type: string,
+        required?: boolean,
+        choices?: string[],
+      }
+    } | undefined,
+    public createdAt: Date,
+    public modifiedLast: Date,
+    private dal: IEventDAL,
+    private registrationDAL: IRegistrationCollectionDAL,
+    private registrationChildDAL: IRegistrationDAL
+  ) {
     this.DAL = dal;
     this.RegistrationDAL = registrationDAL;
     this.RegistrationChildDAL = registrationChildDAL
@@ -86,7 +107,7 @@ export default class Event {
   Xml(): string {
     let Output = "";
 
-    Object.keys(this.Export()).forEach(key => {
+    Object.keys(this.Export()).forEach(() => {
 
     })
 
